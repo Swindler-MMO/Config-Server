@@ -4,11 +4,11 @@ import server from "./configs/server";
 
 @Injectable()
 export class ConfigService {
-	client() {
+	client(): any {
 		return client;
 	}
 
-	server() {
+	server(): any {
 		return server;
 	}
 }
