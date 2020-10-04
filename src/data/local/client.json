@@ -1,0 +1,19 @@
+{
+	"interactCooldown": 0.5,
+	"movementUpdateTime": 0.1,
+	"gameServer": "swindler.thebad.xyz:2525",
+	"items": [
+		{
+			"id": 0,
+			"name": "Wood",
+			"stackSize": 30,
+			"isStackable": true
+		},
+		{
+			"id": 1,
+			"name": "Stone",
+			"stackSize": 30,
+			"isStackable": true
+		}
+	]
+}

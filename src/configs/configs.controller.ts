@@ -1,9 +1,9 @@
 import { Controller, Get } from "@nestjs/common";
-import { ConfigService } from "./config.service";
+import { ConfigsService } from "./configs.service";
 
-@Controller("config")
-export class ConfigController {
-	constructor(private service: ConfigService) {}
+@Controller("configs")
+export class ConfigsController {
+	constructor(private service: ConfigsService) {}
 
 	@Get("/client")
 	client() {
