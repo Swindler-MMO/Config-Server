@@ -1,24 +1,24 @@
 import { readFileSync } from "fs";
 import { join } from "path";
 
-const environements = ["prod", "dev", "local"] as const;
-const configTypes = ["client", "server"] as const;
+const environements = ["prod", "dev", "local"];
+const configTypes = ["client", "server"];
 
 type Environments = typeof environements[number];
 type ConfigTypes = typeof configTypes[number];
 
-export class Configs {
+class Configs {
 
 	static cache = new Map<string, any>();
 
 	static loadConfigs() {
-		for(const env of environements)
-			for(const type of configTypes)
-				this.loadJson(env, type);
+		// for(const env of environements)
+		// 	for(const type of configTypes)
+		// 		this.loadJson(env, type);
 
 	}
 
-	static getConfig(env: Environments, type: ConfigTypes) {
+	static getConfig(env: Environments | string, type: ConfigTypes) {
 		return this.cache.get(env)[type];
 	}
 
@@ -34,4 +34,10 @@ export class Configs {
 
 	}
 
+}
+
+export {
+	Configs,
+	environements,
+	configTypes
 }

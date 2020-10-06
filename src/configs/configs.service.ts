@@ -1,29 +1,45 @@
-import { Injectable } from "@nestjs/common";
-import client from "../../configs/client";
-import server from "../../configs/server";
-import { Configs } from '../configs';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { DB } from '../mongodb';
+import { UpdateConfigDto } from './dto/update-config.dto';
 
 @Injectable()
 export class ConfigsService {
 
-	client(): any {
-		return Configs.getConfig("prod", "client");
+	async get(env: string, name: string): Promise<any> {
+
+		const cfg = await DB.getConfig(env, name);
+
+		if(!cfg)
+			throw new NotFoundException("Config not found");
+
+		delete cfg._id;
+
+		return cfg;
 	}
 
-	server(): any {
-		return Configs.getConfig("prod", "server");
+	async list() {
+		const raw = await DB.listConfigs();
+
+		const response = {};
+
+		for (const d of raw) {
+			const split = d._id.split("-");
+
+			if(!response[split[0]])
+				response[split[0]] = [];
+
+			response[split[0]].push(split[1])
+		}
+
+		return response;
 	}
 
-	update(name: string, env: string, value: any): any {
-		const config =  this.getConfig(name);
-		return config;
+	async update(dto: UpdateConfigDto): Promise<any> {
+		return  DB.setConfig(dto.env, dto.name, dto.config)
 	}
 
-	private getConfig(name: string) {
-		if(name == "client")
-			return client;
-		if(name == "server")
-		return server;
+	async delete(env: string, name: string) {
+		return (await DB.deleteConfig(env, name)).deletedCount > 0;
 	}
 
 }

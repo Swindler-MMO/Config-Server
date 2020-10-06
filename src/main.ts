@@ -1,12 +1,15 @@
+import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
-import { Configs } from './configs';
+import { DB } from './mongodb';
 
 async function bootstrap() {
-
-	Configs.loadConfigs();
+	await DB.connect();
 
 	const app = await NestFactory.create(AppModule);
+
+	app.useGlobalPipes(new ValidationPipe({ transform: true }));
+
 	await app.listen(3000);
 }
 bootstrap();
