@@ -20,6 +20,7 @@ export class DB {
 
 	static async setConfig(env: string, name: string, cfg: any) {
 		const _id = `${env}-${name}`;
+		//console.log(cfg);
 		return (await this.configs.replaceOne({_id}, cfg, {upsert: true})).ops[0];
 	}
 

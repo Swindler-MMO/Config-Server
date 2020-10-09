@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IsIn, IsString, MinLength, MaxLength } from 'class-validator';
+import { IsIn, IsString, MinLength, MaxLength, IsJSON } from 'class-validator';
 import { environements } from '../../configs';
 
 export class UpdateConfigDto {
@@ -12,8 +12,8 @@ export class UpdateConfigDto {
 	@MaxLength(20)
 	name: string;
 
-	// TODO: This section perform a double JSON.parse (IsJSON uses it internally), this must be improved
-	@Transform((v: any) => JSON.parse(v))
+	// TODO: THIS MUST BE PARSED IN ORDER TO AVOID EXCEPTIONS, CODE BElLOW DOESN'T WORKS AS JSON ARRIVE ALREADY SERIALIZED FOR SOME REASONS ???
+	//@Transform((v: any) => {console.log(v); return JSON.parse(v)})
 	config: any;
 
 }
